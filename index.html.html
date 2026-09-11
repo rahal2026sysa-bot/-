@@ -3051,15 +3051,24 @@ return mapboxgl$1;
                 try {
                     const ctrl = new AbortController();
                     const tid = setTimeout(() => ctrl.abort(), 5000);
+                    // [SEC-FIX-DRIVER-STATUS-CHECK-AUTH] كان يستخدم المفتاح العام الثابت دائماً بدل
+                    // جلسة المندوب الحقيقية — بعد إغلاق RLS على drivers، هذا كان يُرجع صفر نتائج
+                    // دائماً (لأنه ينفّذ كـanon لا كمندوب حقيقي)، فيُفسَّر خطأً كـ"الحساب محذوف"
+                    // ويسجّل خروج المندوب تلقائياً كل 15 ثانية. نستخدم التوكن الحقيقي إن وجد.
+                    const { data: { session: _statusSession } } = await supabaseClient.auth.getSession();
+                    const _statusToken = (_statusSession && _statusSession.access_token) || supabaseKey;
                     const res = await fetch(
                         supabaseUrl + '/rest/v1/drivers?select=status&id=eq.' + currentUserData.id + '&limit=1',
-                        { signal: ctrl.signal, headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + supabaseKey, 'Accept': 'application/json' } }
+                        { signal: ctrl.signal, headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + _statusToken, 'Accept': 'application/json' } }
                     );
                     clearTimeout(tid);
                     if(res.ok) {
                         const data = await res.json();
                         // [FIX-DELETED-1] إذا كان السجل غير موجود = الحساب محذوف من الإدارة
-                        if(data && data.length === 0) {
+                        // [SEC-FIX-DRIVER-STATUS-CHECK-AUTH] لا نعتبرها حذفاً إلا لو كانت الجلسة
+                        // الحقيقية فعلاً متوفرة وقت الفحص — وإلا صفر النتائج قد يكون بسبب عدم اكتمال
+                        // ربط Auth بعد لا حذف حقيقي، فنتجاهل الفحص هذه المرة بدل تسجيل خروج خاطئ
+                        if(data && data.length === 0 && _statusSession && _statusSession.access_token) {
                             clearInterval(window._statusCheckInterval);
                             localStorage.removeItem('shaheen_driver');
                             localStorage.removeItem('shaheen_driver_remember');
@@ -4099,9 +4108,13 @@ return mapboxgl$1;
         try {
             const ctrl = new AbortController();
             const tid = setTimeout(() => ctrl.abort(), 6000);
+            // [SEC-FIX-DRIVER-STATUS-CHECK-AUTH] نفس الإصلاح — استخدام الجلسة الحقيقية بدل المفتاح
+            // العام الثابت، وإلا الإشعارات ترجع فاضية دائماً بعد إغلاق RLS على notifications
+            const { data: { session: _inboxSession } } = await supabaseClient.auth.getSession();
+            const _inboxToken = (_inboxSession && _inboxSession.access_token) || supabaseKey;
             const res = await fetch(
                 supabaseUrl + '/rest/v1/notifications?select=*&user_id=eq.' + currentUserData.id + '&order=created_at.desc',
-                { signal: ctrl.signal, headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + supabaseKey, 'Accept': 'application/json' } }
+                { signal: ctrl.signal, headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + _inboxToken, 'Accept': 'application/json' } }
             );
             clearTimeout(tid);
             if(!res.ok) return;
