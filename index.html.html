@@ -926,34 +926,6 @@ return mapboxgl$1;
             </div>
         </div>
 
-        <!-- ===== كرت أرباح المندوب ===== -->
-        <div class="card" style="background:linear-gradient(135deg,rgba(46,204,113,0.07),rgba(52,152,219,0.07)); border:1px solid rgba(46,204,113,0.25); margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
-                <i class="fas fa-coins" style="color:#2ecc71; font-size:14px;"></i>
-                <b style="color:#2ecc71; font-size:12px;">أرباحك الصافية 🦅</b>
-                <span style="margin-right:auto; font-size:8px; color:#888;">بعد اقتطاع نسبة الشركة</span>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
-                <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:8px; text-align:center;">
-                    <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-calendar-day" style="color:#2ecc71;"></i> اليوم</div>
-                    <div id="driver-earn-today-wallet" style="font-size:13px; font-weight:bold; color:#2ecc71;">...</div>
-                </div>
-                <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:8px; text-align:center;">
-                    <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-calendar-week" style="color:#3498db;"></i> هذا الأسبوع</div>
-                    <div id="driver-earn-week-wallet" style="font-size:13px; font-weight:bold; color:#3498db;">...</div>
-                </div>
-            </div>
-            <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:10px; text-align:center; margin-bottom:6px;">
-                <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-trophy" style="color:var(--gold);"></i> إجمالي أرباحك الكلية</div>
-                <div id="driver-earn-total-wallet" style="font-size:20px; font-weight:900; color:var(--gold);">...</div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:10px; color:#aaa; padding:0 2px;">
-                <span>الطلبات المكتملة:</span>
-                <b id="driver-earn-count-wallet" style="color:#fff;">...</b>
-            </div>
-        </div>
-        <!-- ===== نهاية كرت أرباح المندوب ===== -->
-
         <!-- ===== كرت الأرباح الجديد: كاش + محفظة + إجمالي ===== -->
         <div class="card" style="background:linear-gradient(135deg,rgba(0,0,0,0.4),rgba(30,10,30,0.9)); border:1px solid rgba(212,175,55,0.3); margin-bottom:10px;">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
@@ -963,18 +935,12 @@ return mapboxgl$1;
                 </div>
                 <button id="btn-show-earnings-log" onclick="toggleEarningsLog()" style="background:rgba(212,175,55,0.1); border:1px dashed var(--gold); color:var(--gold); padding:3px 8px; border-radius:8px; font-size:9px; cursor:pointer;"><i class="fas fa-list-ul"></i> عرض السجل</button>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:8px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
                 <!-- 🟢 المربع الأخضر: الكاش -->
                 <div style="background:rgba(46,204,113,0.12); border:2px solid rgba(46,204,113,0.6); border-radius:10px; padding:8px; text-align:center;">
                     <div style="font-size:8px; color:#2ecc71; font-weight:bold; margin-bottom:4px;"><i class="fas fa-money-bill-wave"></i> كاش</div>
                     <div id="new-earn-cash" style="font-size:13px; font-weight:900; color:#2ecc71;">0 ل.س</div>
                     <div style="font-size:7px; color:#aaa; margin-top:3px;">ما استلمته فعلياً</div>
-                </div>
-                <!-- 🔵 المربع الأزرق: تعويض محفظة -->
-                <div style="background:rgba(52,152,219,0.12); border:2px solid rgba(52,152,219,0.6); border-radius:10px; padding:8px; text-align:center;">
-                    <div style="font-size:8px; color:#3498db; font-weight:bold; margin-bottom:4px;"><i class="fas fa-wallet"></i> محفظة</div>
-                    <div id="new-earn-wallet-comp" style="font-size:13px; font-weight:900; color:#3498db;">0 ل.س</div>
-                    <div style="font-size:7px; color:#3498db; margin-top:3px; font-weight:bold;">تعويضك في المحفظة</div>
                 </div>
                 <!-- 🟡 المربع الأصفر: إجمالي الربح -->
                 <div style="background:rgba(212,175,55,0.12); border:2px solid rgba(212,175,55,0.6); border-radius:10px; padding:8px; text-align:center;">
@@ -982,6 +948,9 @@ return mapboxgl$1;
                     <div id="new-earn-total-profit" style="font-size:13px; font-weight:900; color:var(--gold);">0 ل.س</div>
                     <div style="font-size:7px; color:var(--gold); margin-top:3px;">كاش + تعويض</div>
                 </div>
+                <!-- [FEATURE-COMP-WALLET-UI] المربع الأزرق "تعويض محفظة" نُقل إلى كرت "محفظة التعويضات"
+                     أسفل هذه البطاقة مباشرة — إزالة التكرار بناءً على طلب صريح -->
+                <div id="new-earn-wallet-comp" style="display:none;">0 ل.س</div>
             </div>
             <!-- سجل العمليات المخفي -->
             <div id="earnings-log-container" style="display:none; margin-top:8px; border-top:1px solid rgba(212,175,55,0.2); padding-top:8px;">
@@ -990,6 +959,26 @@ return mapboxgl$1;
             </div>
         </div>
         <!-- ===== نهاية كرت الأرباح الجديد ===== -->
+
+        <!-- ===== كرت محفظة التعويضات (بناءً على طلب صريح: نفس مكان المربع الأزرق "محفظة" أعلاه) ===== -->
+        <div class="card" style="background:linear-gradient(135deg,rgba(52,152,219,0.09),rgba(46,204,113,0.05)); border:1px solid rgba(52,152,219,0.3); margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+                <i class="fas fa-wallet" style="color:#3498db; font-size:14px;"></i>
+                <b style="color:#3498db; font-size:12px;">محفظة التعويضات 🦅</b>
+                <span style="margin-right:auto; font-size:8px; color:#888;">تعويضات تحمّلتها الشركة عنك</span>
+            </div>
+            <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:12px; text-align:center; margin-bottom:8px;">
+                <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-shield-alt" style="color:#3498db;"></i> رصيدك الحالي بمحفظة التعويضات (لم يُحوَّل بعد)</div>
+                <div id="driver-comp-total-profile" style="font-size:20px; font-weight:900; color:#3498db;">...</div>
+            </div>
+            <button id="comp-transfer-btn" class="btn-gold" style="width:100%; background:rgba(46,204,113,0.15); color:#2ecc71; border:1px solid #2ecc71; font-size:11px; padding:10px 6px; margin-bottom:6px; font-weight:bold;" onclick="transferCompensationToWallet()">
+                <i class="fas fa-exchange-alt"></i> تحويل الرصيد لمحفظة العمل
+            </button>
+            <button class="btn-gold" style="width:100%; background:rgba(52,152,219,0.12); color:#3498db; border:1px solid #3498db; font-size:10px; padding:10px 6px;" onclick="showCompensationLog()">
+                <i class="fas fa-list"></i> سجل التعويضات
+            </button>
+        </div>
+        <!-- ===== نهاية كرت محفظة التعويضات ===== -->
 
         <!-- ===== بطاقة الإقفال اليومي ===== -->
         <div class="card" style="background:linear-gradient(135deg,rgba(142,68,173,0.12),rgba(0,0,0,0.5)); border:1.5px solid rgba(142,68,173,0.5); margin-bottom:10px;">
@@ -1185,33 +1174,6 @@ return mapboxgl$1;
                 </div>
             </div>
         </div>
-        <!-- ===== كرت أرباح المندوب في البروفايل ===== -->
-        <div class="card" style="background:linear-gradient(135deg,rgba(46,204,113,0.07),rgba(52,152,219,0.07)); border:1px solid rgba(46,204,113,0.25); margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
-                <i class="fas fa-coins" style="color:#2ecc71; font-size:14px;"></i>
-                <b style="color:#2ecc71; font-size:12px;">أرباحك الصافية 🦅</b>
-                <span style="margin-right:auto; font-size:8px; color:#888;">بعد اقتطاع نسبة الشركة</span>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
-                <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:8px; text-align:center;">
-                    <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-calendar-day" style="color:#2ecc71;"></i> اليوم</div>
-                    <div id="driver-earn-today-profile" style="font-size:13px; font-weight:bold; color:#2ecc71;">...</div>
-                </div>
-                <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:8px; text-align:center;">
-                    <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-calendar-week" style="color:#3498db;"></i> هذا الأسبوع</div>
-                    <div id="driver-earn-week-profile" style="font-size:13px; font-weight:bold; color:#3498db;">...</div>
-                </div>
-            </div>
-            <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:10px; text-align:center; margin-bottom:6px;">
-                <div style="font-size:8px; color:#aaa; margin-bottom:3px;"><i class="fas fa-trophy" style="color:var(--gold);"></i> إجمالي أرباحك الكلية</div>
-                <div id="driver-earn-total-profile" style="font-size:20px; font-weight:900; color:var(--gold);">...</div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:10px; color:#aaa; padding:0 2px;">
-                <span>الطلبات المكتملة:</span>
-                <b id="driver-earn-count-profile" style="color:#fff;">...</b>
-            </div>
-        </div>
-        <!-- ===== نهاية كرت أرباح المندوب ===== -->
         <button class="btn-gold" style="background:rgba(52,152,219,0.12); color:#3498db; border:1px solid #3498db; margin-bottom:10px; font-size:12px; font-weight:bold;" onclick="nav('p-driver-info')">
             <i class="fas fa-id-card"></i> 👤 معلومات المندوب
         </button>
@@ -1389,6 +1351,13 @@ return mapboxgl$1;
             <i class="fas fa-arrow-right" onclick="nav('p-main')" style="color:var(--gold); font-size: 14px;"></i>
             <h3 id="active-res-name" style="margin:0; font-size: 14px;">تجهيز الطلب</h3>
         </div>
+
+        <!-- [FEATURE-MANUAL-REFRESH-BTN] زر يدوي احتياطي — بناءً على طلب صريح، للاستخدام لو صار
+             تعليق بالصفحة (مشكلة التجمّد المتقطّعة لم يُحدَّد سببها الجذري بعد بشكل كامل). هذا زر
+             يدوي يضغطه المندوب بنفسه عند الحاجة فقط — ليس حلاً تلقائياً أو مخفياً للمشكلة. -->
+        <button onclick="location.reload()" style="width:100%; margin-top:8px; background:rgba(241,196,15,0.15); color:#f1c40f; border:1px solid #f1c40f; border-radius:10px; padding:8px; font-size:11px; font-weight:bold; cursor:pointer;">
+            <i class="fas fa-sync-alt"></i> تحديث الصفحة (لو صار تعليق)
+        </button>
 
         <!-- ===== بطاقة التتبع الحي ===== -->
         <!-- [REMOVED] order-tracking-card محذوفة بناءً على طلب الإدارة -->
@@ -3624,6 +3593,85 @@ return mapboxgl$1;
     }
     // ===== نهاية دالة أرباح المندوب =====
 
+    // ===== [FEATURE-COMP-WALLET-UI] محفظة التعويضات — الرصيد المعلَّق والسجل، من المصدر الآمن driver_compensations =====
+    async function loadCompensationTotal() {
+        if (!currentUserData) return;
+        const el = document.getElementById('driver-comp-total-profile');
+        try {
+            // [FEATURE-COMP-MANUAL-TRANSFER] نعرض الرصيد المعلَّق (لم يُحوَّل بعد) فقط، لا الإجمالي
+            // التاريخي الكامل — بما أن التحويل صار يدوياً بناءً على طلب صريح
+            const { data } = await supabaseClient
+                .from('driver_compensations')
+                .select('amount')
+                .eq('driver_id', currentUserData.id)
+                .is('transferred_at', null);
+            const total = (data || []).reduce((s, r) => s + (parseFloat(r.amount) || 0), 0);
+            if (el) el.innerText = Math.round(total).toLocaleString() + ' ل.س';
+        } catch (e) {
+            if (el) el.innerText = '0 ل.س';
+        }
+    }
+
+    async function transferCompensationToWallet() {
+        if (!currentUserData) return;
+        const btn = document.getElementById('comp-transfer-btn');
+        if (btn) { btn.disabled = true; btn.innerText = 'جارِ التحويل...'; }
+        try {
+            const { data, error } = await supabaseClient.rpc('transfer_compensation_to_wallet', {});
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-exchange-alt"></i> تحويل الرصيد لمحفظة العمل'; }
+            if (error || !data || !data.success) {
+                if (data && data.error === 'nothing_to_transfer') {
+                    siteNotify('لا يوجد رصيد تعويضات معلَّق للتحويل حالياً');
+                } else {
+                    siteNotify('تعذّر التحويل، حاول مجدداً');
+                }
+                return;
+            }
+            siteNotify('✅ تم تحويل ' + Math.round(data.transferred_amount).toLocaleString() + ' ل.س لمحفظة العمل');
+            loadCompensationTotal();
+            updateWalletUI();
+        } catch (e) {
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-exchange-alt"></i> تحويل الرصيد لمحفظة العمل'; }
+            siteNotify('تعذّر التحويل، تحقّق من الاتصال');
+        }
+    }
+
+    function showCompensationLog() {
+        if (!currentUserData) return;
+        supabaseClient
+            .from('driver_compensations')
+            .select('order_id, amount, reason, created_at')
+            .eq('driver_id', currentUserData.id)
+            .order('created_at', { ascending: false })
+            .then(({ data, error }) => {
+                if (error) { siteNotify('تعذّر تحميل السجل حالياً'); return; }
+                const rows = data || [];
+                let html;
+                if (rows.length === 0) {
+                    html = '<p style="text-align:center; color:#888; font-size:11px; padding:15px;">لا يوجد تعويضات مسجّلة بعد 🦅</p>';
+                } else {
+                    html = rows.map(r => (
+                        '<div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">' +
+                        '<div><div style="font-size:11px; color:#fff; font-weight:bold;">طلب #' + escHtml(String(r.order_id)) + '</div>' +
+                        '<div style="font-size:9px; color:#aaa;">' + escHtml(r.reason || '') + ' — ' + new Date(r.created_at).toLocaleString('ar') + '</div></div>' +
+                        '<div style="font-size:13px; font-weight:bold; color:#3498db;">+' + Math.round(r.amount).toLocaleString() + ' ل.س</div></div>'
+                    )).join('');
+                }
+                const existing = document.getElementById('comp-log-modal');
+                if (existing) existing.remove();
+                const modalHtml =
+                    '<div id="comp-log-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; display:flex; align-items:center; justify-content:center; padding:16px;" onclick="if(event.target===this) this.remove()">' +
+                    '<div style="background:#1a1a2e; border:1px solid #3498db; border-radius:14px; padding:16px; max-width:400px; width:100%; max-height:75vh; overflow-y:auto;">' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">' +
+                    '<b style="color:#3498db; font-size:13px;"><i class="fas fa-wallet"></i> سجل التعويضات</b>' +
+                    '<span onclick="document.getElementById(\'comp-log-modal\').remove()" style="cursor:pointer; color:#e74c3c; font-size:16px;">✕</span></div>' +
+                    html + '</div></div>';
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+            })
+            .catch(() => { siteNotify('تعذّر تحميل السجل حالياً'); });
+    }
+    // ===== نهاية محفظة التعويضات =====
+
     // ===== دالة تحميل عرض الأرباح الجديدة (كاش + محفظة + إجمالي) =====
     async function loadNewEarningsUI() {
         if(!currentUserData) return;
@@ -5472,7 +5520,7 @@ return mapboxgl$1;
         }
         
         if(id === 'p-main') refreshOrders();
-        if(id === 'p-wallet') { loadOrderHistory(); updateWalletUI(); loadNewEarningsUI(); loadDailyClosingCard(); }
+        if(id === 'p-wallet') { loadOrderHistory(); updateWalletUI(); loadNewEarningsUI(); loadDailyClosingCard(); loadCompensationTotal(); }
         if(id === 'p-profile') { updateWalletUI(); loadDriverEarningsUI(); loadDriverTypeAndAttendance(); }
         // [FIX-DRIVER-INFO-PAGE] الصفحة الموحَّدة الجديدة لكل بيانات المندوب — تُحمَّل بياناتها هنا فقط
         if(id === 'p-driver-info') { loadDriverInfoPage(); loadMyDocs(); _loadContractExtraFieldsUI(); }
@@ -5489,6 +5537,42 @@ return mapboxgl$1;
         }
         if(id === 'p-financing') loadFinancingData();
         if(id === 'p-inbox') { document.getElementById('inbox-badge').style.display = 'none'; fetchInboxMessages(); }
+        // [ROOT-CAUSE-FIX-ACTIVE-ORDER-NAV] كانت هذه الصفحة الوحيدة بدون إعادة تحميل عند التنقّل
+        // إليها عبر nav() — عكس كل صفحة أخرى بالتطبيق. initSystem() وحدها كانت تتحقق من قاعدة
+        // البيانات (Source of Truth)، لذا كان الطلب "يختفي" عند أي تنقّل عادي بين التبويبات ولا
+        // يعود إلا بـ Refresh كامل يعيد initSystem(). الآن نفس التحقق يصير عند كل دخول للصفحة.
+        if(id === 'p-active-order') { _reloadActiveOrderPage(); }
+    }
+
+    // [ROOT-CAUSE-FIX-ACTIVE-ORDER-NAV] يتحقق من قاعدة البيانات دائماً (Source of Truth) بدل
+    // الاعتماد على currentOrderID المحلي فقط — يعمل صحيحاً حتى بعد component remount، عودة من
+    // الخلفية، أو انقطاع شبكة مؤقت ثم عودتها، تماماً كما يحدث أصلاً بمسار initSystem()
+    async function _reloadActiveOrderPage() {
+        if (!currentUserData) return;
+        try {
+            const { data: activeOrders } = await _withTimeout(
+                supabaseClient.from('sh_public_orders').select('*')
+                    .eq('driver_id', currentUserData.id)
+                    .in('status', ['accepted', 'picked', 'preparing', 'ready'])
+                    .order('created_at', { ascending: false })
+                    .limit(1),
+                10000
+            );
+            const activeOrder = (activeOrders && activeOrders.length > 0) ? activeOrders[0] : null;
+            if (activeOrder) {
+                currentOrderID = activeOrder.id;
+                localStorage.setItem('active_order_id', activeOrder.id);
+                await reconnectActiveOrder(activeOrder.id, activeOrder);
+            } else if (currentOrderID) {
+                // قاعدة البيانات تؤكد أن لا طلب نشطاً فعلياً — ننظّف الحالة المحلية القديمة بأمان
+                currentOrderID = null;
+                localStorage.removeItem('active_order_id');
+                nav('p-main');
+            }
+        } catch (_reloadErr) {
+            // فشل شبكة/مهلة مؤقت — لا نمسح أي شيء ولا نعرض شاشة فاضية، نُبقي المعروض حالياً كما هو
+            console.error('[ROOT-CAUSE-FIX-ACTIVE-ORDER-NAV] فشل التحقق من الطلب النشط عند التنقل:', _reloadErr);
+        }
     }
 
     // [GPS-DEBUG-BANNER] دالة عرض خطأ حفظ الموقع بشكل ثابت وكامل وقابل للتصوير
@@ -6678,7 +6762,10 @@ return mapboxgl$1;
             // تحديث رصيد المندوب في قاعدة البيانات — [SEC-FIX-ATOMIC-BALANCE] عملية ذرّية داخل
             // القاعدة (delta-based) بدل حساب الرقم النهائي بجافاسكريبت من قراءة سابقة قد تكون
             // قديمة — كان يسبب فقدان تحديث حقيقي لو أنهى نفس المندوب طلبين بفارق ثوانٍ
-            const _walletDelta = -deductFromWallet - _consultDeduct + walletCompensation;
+            // [FEATURE-COMP-MANUAL-TRANSFER] التعويض لم يعد يُضاف تلقائياً هنا — يتجمّع بمحفظة
+            // التعويضات المنفصلة (driver_compensations)، والمندوب يحوّله لمحفظة العمل يدوياً وقت
+            // ما يريد، عبر زر "تحويل لمحفظة العمل" (بناءً على طلب صريح).
+            const _walletDelta = -deductFromWallet - _consultDeduct;
             const updateBalanceTask = supabaseClient.rpc('settle_driver_order_balance', {
                 p_driver_id: currentUserData.id,
                 p_wallet_delta: _walletDelta,
@@ -6760,6 +6847,39 @@ return mapboxgl$1;
             // الكونسول للتشخيص، دون إزعاج المندوب بأي رسالة — بنفس أسلوب driver_earnings_logs تماماً.
             if (_resLedger && _resLedger.error) {
                 console.error('[FIX-SILENT-LEDGER-FAIL] فشل تسجيل ledger (لا يؤثر على نجاح التسليم):', _resLedger.error);
+            }
+
+            // [FEATURE-SECURE-COMPENSATION] [BUGFIX-COMP-ORDER-STATUS] نُقلت إلى هنا (بعد تأكّد أن
+            // الطلب أصبح status='completed' فعلياً بقاعدة البيانات أعلاه) — كانت توضع قبل تحديث
+            // الحالة مباشرة فترفضها الدالة الآمنة دائماً برسالة "order_not_completed"، لأن الطلب لم
+            // يكن قد اكتمل فعلياً بعد وقت استدعائها. تحسب المبلغ بنفسها من بيانات القاعدة (لا تثق
+            // برقم walletCompensation القادم من الجافاسكريبت)، وتُستخدَم نتيجتها الموثَّقة بالإشعار.
+            if (walletCompensation > 0) {
+                supabaseClient.rpc('record_driver_compensation', { p_order_id: String(order.id) })
+                    .then(({ data: _compResult, error: _compErr }) => {
+                        if (_compErr) console.error('[FEATURE-SECURE-COMPENSATION] فشل RPC:', _compErr);
+                        const _verifiedAmount = (_compResult && _compResult.success && _compResult.amount > 0)
+                            ? _compResult.amount : walletCompensation;
+                        supabaseClient.from('notifications').insert([{
+                            user_id: currentUserData.id,
+                            message: '🔵 تم تعويضك في المحفظة: ' + Math.round(_verifiedAmount).toLocaleString() + ' ل.س عن طلب #' + order.id +
+                                (isFreeDeliveryOrder ? ' (توصيل مجاني — تحمّلته الشركة)' : ' (خصم على العميل — تحمّلته الشركة)'),
+                            type: 'wallet_compensation',
+                            reference_id: String(order.id),
+                            created_at: new Date().toISOString()
+                        }]).then(() => {}).catch(() => {});
+                    })
+                    .catch((_compCatchErr) => {
+                        console.error('[FEATURE-SECURE-COMPENSATION] استثناء غير متوقَّع:', _compCatchErr);
+                        supabaseClient.from('notifications').insert([{
+                            user_id: currentUserData.id,
+                            message: '🔵 تم تعويضك في المحفظة: ' + Math.round(walletCompensation).toLocaleString() + ' ل.س عن طلب #' + order.id +
+                                (isFreeDeliveryOrder ? ' (توصيل مجاني — تحمّلته الشركة)' : ' (خصم على العميل — تحمّلته الشركة)'),
+                            type: 'wallet_compensation',
+                            reference_id: String(order.id),
+                            created_at: new Date().toISOString()
+                        }]).then(() => {}).catch(() => {});
+                    });
             }
 
             // تحديث الأرقام التراكمية فوراً في الواجهة بعد إتمام الطلب
